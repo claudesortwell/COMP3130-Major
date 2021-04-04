@@ -5,76 +5,20 @@ import TextStyle from "../styles/text";
 import Colors from "../styles/colors";
 import { Button } from "../components/Button";
 import { LinearGradient } from "expo-linear-gradient";
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1
-  },
-  imageBackground: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center"
-  },
-  flexContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    height: "100%"
-  },
-  flexTop: {
-    height: 270,
-    width: "100%",
-    paddingStart: 20,
-    paddingTop: 30,
-    justifyContent: "flex-start",
-    alignItems: "flex-start"
-  },
-  flexBottomText: {
-    borderTopColor: Colors.white,
-    borderTopWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    marginTop: 20,
-    paddingTop: 10
-  },
-  lineDraw: {
-    borderBottomColor: Colors.grey,
-    borderBottomWidth: 1,
-    width: 120,
-    height: 1,
-    marginTop: 20,
-    marginBottom: 15
-  },
-  flexBottomButtons: {
-    flex: 1,
-    position: "absolute",
-    bottom: 0,
-    width: "80%",
-    marginBottom: 20,
-    justifyContent: "flex-end"
-  }
-});
+import CommonStyles from "../styles/common";
 
 export const Register = ({ navigation }) => {
-  const {
-    mainContainer,
-    imageBackground,
-    flexContainer,
-    flexTop,
-    flexBottomText,
-    flexBottomButtons,
-    lineDraw
-  } = styles;
+  const { flexTop, flexBottomText, flexBottomButtons } = styles;
 
   return (
-    <View style={mainContainer}>
+    <View style={{ ...CommonStyles.mainContainer }}>
       <LinearGradient
         colors={[Colors.teal, Colors.blue]}
         start={{ x: 0.5, y: 0.3 }}
         end={{ x: 1, y: 1 }}
-        style={imageBackground}
+        style={{ ...CommonStyles.imageBackground }}
       >
-        <View style={flexContainer}>
+        <View style={{ ...CommonStyles.flexContainer }}>
           <ImageBackground source={require("../assets/header_login.png")} style={{ width: "100%" }}>
             <View style={flexTop}>
               <TouchableWithoutFeedback onPress={() => navigation.navigate("Welcome")}>
@@ -85,7 +29,7 @@ export const Register = ({ navigation }) => {
                 style={{ width: 120, height: 60 }}
                 resizeMode="contain"
               />
-              <View style={lineDraw} />
+              <View style={{ ...CommonStyles.lineDraw }} />
               <TouchableWithoutFeedback onPress={() => navigation.navigate("Login")}>
                 <Text style={{ ...TextStyle.H5, color: Colors.main }}>
                   Already have an account?{" "}
@@ -118,3 +62,31 @@ export const Register = ({ navigation }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  flexTop: {
+    height: 270,
+    width: "100%",
+    paddingStart: 20,
+    paddingTop: 30,
+    justifyContent: "flex-start",
+    alignItems: "flex-start"
+  },
+  flexBottomText: {
+    borderTopColor: Colors.white,
+    borderTopWidth: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    marginTop: 20,
+    paddingTop: 10
+  },
+  flexBottomButtons: {
+    flex: 1,
+    position: "absolute",
+    bottom: 0,
+    width: "80%",
+    marginBottom: 20,
+    justifyContent: "flex-end"
+  }
+});

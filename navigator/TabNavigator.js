@@ -4,6 +4,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MyProfile } from "../screens/MyProfile";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../styles/colors";
+import { CardStyleInterpolators } from "@react-navigation/stack";
+import { Search } from "../screens/Search";
+import { UserProvider } from "../context/UserContext";
 
 function MyTabBar({ state, descriptors, navigation }) {
   return (
@@ -55,7 +58,6 @@ function MyTabBar({ state, descriptors, navigation }) {
             target: route.key
           });
         };
-        console.log(options.tabBarIcon());
 
         return (
           <TouchableOpacity
@@ -65,6 +67,7 @@ function MyTabBar({ state, descriptors, navigation }) {
             testID={options.tabBarTestID}
             onPress={onPress}
             onLongPress={onLongPress}
+            key={index}
             style={{ flex: 1, alignItems: "center" }}
           >
             {isFocused ? (
@@ -90,33 +93,36 @@ export default function TabNavigator() {
   const Tab = createBottomTabNavigator();
 
   return (
-    <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-      <Tab.Screen
-        name="Home"
-        component={MyProfile}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: () => <Image source={require("../assets/search_icon.png")} style={{ width: 36, height: 36 }} />
-        }}
-      />
-      <Tab.Screen
-        name="123"
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: () => <Image source={require("../assets/plus_icon.png")} style={{ width: 36, height: 36 }} />
-        }}
-        component={MyProfile}
-      />
-      <Tab.Screen
-        name="1245"
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: () => <Image source={require("../assets/user_icon.png")} style={{ width: 36, height: 36 }} />
-        }}
-        component={MyProfile}
-      />
-    </Tab.Navigator>
+    <UserProvider>
+      <Tab.Navigator lazy={true} screenOptions={{ unmountOnBlur: true }} tabBar={(props) => <MyTabBar {...props} />}>
+        <Tab.Screen
+          name="Search"
+          component={Search}
+          options={{
+            tabBarLabel: "Home",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            tabBarIcon: () => <Image source={require("../assets/search_icon.png")} style={{ width: 36, height: 36 }} />
+          }}
+        />
+        <Tab.Screen
+          name="New"
+          options={{
+            tabBarLabel: "New",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            tabBarIcon: () => <Image source={require("../assets/plus_icon.png")} style={{ width: 36, height: 36 }} />
+          }}
+          component={MyProfile}
+        />
+        <Tab.Screen
+          name="Profile"
+          options={{
+            tabBarLabel: "Profile",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            tabBarIcon: () => <Image source={require("../assets/user_icon.png")} style={{ width: 36, height: 36 }} />
+          }}
+          component={MyProfile}
+        />
+      </Tab.Navigator>
+    </UserProvider>
   );
 }
-// <Feather name="search" size={20} style={{ padding: 5 }} color={Colors.main} />
-// <AntDesign name="pluscircleo" size={20} style={{ padding: 5 }} color="black" />

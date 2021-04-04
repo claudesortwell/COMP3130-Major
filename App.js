@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AppLoading from "expo-app-loading";
 import {
   useFonts,
@@ -9,11 +9,24 @@ import {
   Inter_400Regular
 } from "@expo-google-fonts/inter";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import AuthNavigator from "./navigator/AuthNavigator";
+import DataManager from "./data/DataManager";
 
 export default function App() {
-  const Stack = createStackNavigator();
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  async function getUser() {
+    let data = await DataManager.getInstance();
+    return data.user;
+  }
+
+  useEffect(() => {
+    getUser().then((value) => {
+      setUser(value);
+      setLoading(false);
+    });
+  }, []);
 
   let [fontsLoaded] = useFonts({
     Inter_600SemiBold,
@@ -22,13 +35,14 @@ export default function App() {
     Inter_400Regular
   });
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || loading) {
     return <AppLoading />;
   }
 
   return (
     <NavigationContainer>
       <AuthNavigator />
+
       <StatusBar style="auto" />
     </NavigationContainer>
   );

@@ -1,28 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, Image, TouchableWithoutFeedback, TouchableOpacity, StyleSheet, Modal } from "react-native";
 import TextStyle from "../styles/text";
 import { Entypo } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import Shadows from "../styles/shadow";
+import DataManager from "../data/DataManager";
 
-export const TopBar = ({ navigation }) => {
+export const TopBar = ({ navigation, disableShadow }) => {
   const [menuOpen, setMenuOpen] = React.useState(false);
+  const [dataManager, setDataManager] = React.useState(null);
+
+  useEffect(() => {
+    DataManager.getInstance().then((instance) => setDataManager(instance));
+  }, []);
 
   return (
     <View
-      style={{
-        backgroundColor: "#fff",
-        height: 100,
-        paddingTop: 50,
-        paddingLeft: 30,
-        paddingRight: 20,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        ...Shadows.main,
-        flexDirection: "row",
-        flexWrap: "wrap",
-        zIndex: 20
-      }}
+      style={
+        disableShadow
+          ? {
+              backgroundColor: "#fff",
+              height: 100,
+              paddingTop: 50,
+              paddingLeft: 30,
+              paddingRight: 20,
+              flexDirection: "row",
+              flexWrap: "wrap",
+              zIndex: 20
+            }
+          : {
+              backgroundColor: "#fff",
+              height: 100,
+              paddingTop: 50,
+              paddingLeft: 30,
+              paddingRight: 20,
+              borderBottomLeftRadius: 20,
+              borderBottomRightRadius: 20,
+              flexDirection: "row",
+              flexWrap: "wrap",
+              zIndex: 20,
+              ...Shadows.main
+            }
+      }
     >
       <Image source={require("../assets/logo.png")} style={{ width: 30, height: 30 }} />
       <Image
@@ -48,8 +67,10 @@ export const TopBar = ({ navigation }) => {
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => {
-            navigation.navigate("Welcome");
-            setMenuOpen(false);
+            dataManager.logout().then(() => {
+              navigation.navigate("Welcome");
+              setMenuOpen(false);
+            });
           }}
           style={{
             backgroundColor: "transparent",

@@ -12,6 +12,8 @@ import DismissKeyboard from "../components/DissmissKeyboard";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { validateUser } from "../data/Users";
+import DataManager from "../data/DataManager";
+import CommonStyles from "../styles/common";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Error: Missing email"),
@@ -19,15 +21,9 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const Login = ({ navigation }) => {
-  const {
-    mainContainer,
-    imageBackground,
-    flexContainer,
-    flexTop,
-    flexBottomText,
-    flexBottomButtons,
-    lineDraw
-  } = styles;
+  const { flexTop, flexBottomText, flexBottomButtons } = styles;
+
+  const { mainContainer, imageBackground, flexContainer, lineDraw } = CommonStyles;
 
   return (
     <View style={mainContainer}>
@@ -62,16 +58,20 @@ export const Login = ({ navigation }) => {
 
           <Formik
             initialValues={{ email: "", password: "" }}
-            // validationSchema={LoginSchema}
-            onSubmit={(values, { resetForm }) => {
-              if (validateUser(values)) {
-                console.log(values);
-                resetForm();
+            validationSchema={LoginSchema}
+            onSubmit={async (values, { resetForm }) => {
+              const user = validateUser(values);
+              if (user) {
+                const instance = await DataManager.getInstance();
+                await instance.setUser(user.email, user.id);
+                if (instance.user) {
+                  navigation.navigate("Home");
+                  resetForm();
+                }
               } else {
                 resetForm();
                 Alert.alert("Invalid Login Details");
               }
-              navigation.navigate("Home");
             }}
           >
             {({ values, handleChange, handleSubmit, errors, setFieldTouched }) => (
@@ -134,19 +134,6 @@ export const Login = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1
-  },
-  imageBackground: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center"
-  },
-  flexContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    height: "100%"
-  },
   flexTop: {
     height: 270,
     width: "100%",
@@ -163,14 +150,6 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 20,
     paddingTop: 10
-  },
-  lineDraw: {
-    borderBottomColor: Colors.grey,
-    borderBottomWidth: 1,
-    width: 120,
-    height: 1,
-    marginTop: 20,
-    marginBottom: 15
   },
   flexBottomButtons: {
     flex: 1,

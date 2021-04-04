@@ -1,44 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { Text, View, ImageBackground, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, View, ImageBackground } from "react-native";
 import TextStyle from "../styles/text";
 import Colors from "../styles/colors";
 import { Button } from "../components/Button";
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1
-  },
-  imageBackground: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center"
-  },
-  flexContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    height: "100%"
-  },
-  flexPadding: { height: "45%" },
-  flexCenterText: {
-    borderTopColor: Colors.grey,
-    borderTopWidth: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    width: "65%"
-  },
-  flexBottomButtons: {
-    flex: 1,
-    position: "absolute",
-    bottom: 0,
-    width: "80%",
-    marginBottom: 40,
-    justifyContent: "flex-end"
-  }
-});
+import DataManager from "../data/DataManager";
+import CommonStyles from "../styles/common";
 
 export const Welcome = ({ navigation }) => {
-  const { mainContainer, imageBackground, flexContainer, flexPadding, flexCenterText, flexBottomButtons } = styles;
+  const {
+    mainContainer,
+    imageBackground,
+    flexContainer,
+    flexPadding,
+    flexCenterText,
+    flexBottomButtons
+  } = CommonStyles;
+
+  async function getUser() {
+    let data = await DataManager.getInstance();
+    return data.user;
+  }
+
+  useEffect(() => {
+    getUser().then((value) => {
+      if (value) {
+        navigation.navigate("Home");
+      }
+    });
+  }, []);
 
   return (
     <View style={mainContainer}>
