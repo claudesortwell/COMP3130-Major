@@ -15,17 +15,17 @@ const Text = StyleSheet.create({
   H4: {
     fontFamily: "Inter_600SemiBold",
     color: Colors.main,
-    fontSize: 12
+    fontSize: 14
   },
   H3: {
     fontFamily: "Inter_700Bold",
     color: Colors.main,
-    fontSize: 16
+    fontSize: 14
   },
   H2: {
     fontFamily: "Inter_700Bold",
     color: Colors.main,
-    fontSize: 18
+    fontSize: 20
   }
 });
 

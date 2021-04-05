@@ -101,7 +101,9 @@ export const MyProfile = ({ navigation }) => {
                 ]}
               >
                 <TouchableWithoutFeedback onPress={() => setTab("listing")}>
-                  <Text style={{ ...TextStyle.H3, textAlign: "center" }}>{Listings.length}</Text>
+                  <Text style={{ ...TextStyle.H3, textAlign: "center" }}>
+                    {Listings.filter((value) => value.userId === user.id).length}
+                  </Text>
                   <Text
                     style={{
                       ...TextStyle.H5,
@@ -169,7 +171,7 @@ export const MyProfile = ({ navigation }) => {
               paddingBottom: 170
             }}
           >
-            {Listings.map((value, index) => (
+            {Listings.filter((value) => value.userId === user.id).map((value, index) => (
               <React.Fragment key={"listings-" + index}>
                 <ListingCard data={value} />
               </React.Fragment>

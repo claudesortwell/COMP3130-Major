@@ -7,7 +7,7 @@ import ListingCard from "../components/ListingCard";
 import RNPickerSelect, { defaultStyles } from "react-native-picker-select";
 import { Ionicons } from "@expo/vector-icons";
 import Color from "../styles/colors";
-import { set } from "react-native-reanimated";
+import { AntDesign } from "@expo/vector-icons";
 
 const styles = StyleSheet.create({});
 
@@ -43,6 +43,10 @@ export const Search = ({ navigation }) => {
       >
         <View style={{ marginLeft: 10, width: "100%" }}>
           <Text style={{ ...TextStyle.H2, marginTop: 1 }}>Search</Text>
+          <View style={{ flex: 1, flexDirection: "row", marginTop: 3, marginBottom: 2 }}>
+            <AntDesign name="tags" size={18} />
+            <Text style={{ ...TextStyle.H3, marginTop: 1, marginLeft: 5 }}>Category</Text>
+          </View>
           <RNPickerSelect
             placeholder={{
               label: "Select a category....",

@@ -7,6 +7,7 @@ import Colors from "../styles/colors";
 import { CardStyleInterpolators } from "@react-navigation/stack";
 import { Search } from "../screens/Search";
 import { UserProvider } from "../context/UserContext";
+import { AddListing } from "../screens/AddListing";
 
 function MyTabBar({ state, descriptors, navigation }) {
   return (
@@ -111,7 +112,7 @@ export default function TabNavigator() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
             tabBarIcon: () => <Image source={require("../assets/plus_icon.png")} style={{ width: 36, height: 36 }} />
           }}
-          component={MyProfile}
+          component={AddListing}
         />
         <Tab.Screen
           name="Profile"

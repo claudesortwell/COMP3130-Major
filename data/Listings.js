@@ -55,7 +55,7 @@ export const Listings = [
     address: "7 Rumsey Cresncent Dundas Valley",
     image: require("../assets/listing5.jpg"),
     stars: 3,
-    userId: 1
+    userId: 2
   },
   {
     id: 6,
@@ -113,7 +113,7 @@ export const Listings = [
     address: "7 Rumsey Cresncent Dundas Valley",
     image: require("../assets/listing5.jpg"),
     stars: 3,
-    userId: 1
+    userId: 2
   }
 ];
 
