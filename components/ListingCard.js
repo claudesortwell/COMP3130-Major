@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Image, Text, TouchableHighlight } from "react-native";
 import Shadows from "../styles/shadow";
 import TextStyle from "../styles/text";
@@ -9,7 +9,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../styles/colors";
 
-const ListingCard = ({ data }) => {
+const ListingCard = ({ data, navigation }) => {
   return (
     <View
       style={{
@@ -39,7 +39,7 @@ const ListingCard = ({ data }) => {
           </Text>
         </View>
 
-        <View style={{ flexDirection: "row", marginTop: 2 }}>
+        <View style={{ flexDirection: "row", marginTop: data.locality ? 2 : 16 }}>
           <AntDesign name="tags" size={18} />
           <Text
             numberOfLines={1}
@@ -50,7 +50,7 @@ const ListingCard = ({ data }) => {
         </View>
 
         {data.locality && (
-          <View style={{ flexDirection: "row", marginTop: 8 }}>
+          <View style={{ flexDirection: "row", marginTop: 10 }}>
             <Entypo name="globe" size={14} style={{ paddingLeft: 2 }} />
             <Text numberOfLines={1} style={{ ...TextStyle.H6, paddingLeft: 9, marginTop: 1.5, width: "85%" }}>
               {data.locality}
@@ -58,7 +58,7 @@ const ListingCard = ({ data }) => {
           </View>
         )}
 
-        <View style={{ flexDirection: "row", marginTop: 10 }}>
+        <View style={{ flexDirection: "row", marginTop: data.locality ? 10 : 16 }}>
           <MaterialIcons name="star" size={18} color="black" />
           <Text
             numberOfLines={1}
@@ -72,7 +72,7 @@ const ListingCard = ({ data }) => {
           <TouchableHighlight
             style={{ borderRadius: 5, flexDirection: "row", marginTop: 3 }}
             onPress={() => {
-              if (onPress) onPress();
+              if (navigation) navigation.navigate("Listing", { id: data.id });
             }}
           >
             <LinearGradient

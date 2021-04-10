@@ -5,18 +5,18 @@ import { TabWrapper } from "../components/TabWrapper";
 import Shadows from "../styles/shadow";
 import Colors from "../styles/colors";
 import { LinearGradient } from "expo-linear-gradient";
-import { useUser } from "../context/UserContext";
 import ListingCard from "../components/ListingCard";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { getListings, Listings } from "../data/Listings";
-import { Button } from "../components/Button";
+import { useData } from "../context/DataContext";
+import { getUser } from "../data/Users";
 
-export const MyProfile = ({ navigation }) => {
-  const user = useUser();
+export const MyProfile = ({ route, navigation }) => {
+  const data = useData();
 
-  const [tab, setTab] = useState("listing");
+  var user = null;
+  if (route.params && route.params.id) {
+    user = getUser("", route.params.id);
+  }
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const listingMarginLeftAnim = useRef(new Animated.Value(-1000)).current;
@@ -50,15 +50,8 @@ export const MyProfile = ({ navigation }) => {
 
   useEffect(() => {
     fadeIn();
+    listSlideIn();
   }, []);
-
-  useEffect(() => {
-    if (tab === "listing") {
-      listSlideIn();
-    } else {
-      listSlideOut();
-    }
-  }, [tab]);
 
   return (
     <TabWrapper navigation={navigation} disableShadow={true}>
@@ -83,10 +76,12 @@ export const MyProfile = ({ navigation }) => {
               style={{ padding: 5, borderRadius: 15 }}
             >
               <View style={{ padding: 4, borderRadius: 12, backgroundColor: "#fff" }}>
-                <Image style={{ width: 55, height: 55 }} source={user.image} />
+                <Image style={{ width: 55, height: 55 }} source={user ? user.image : data.user.image} />
               </View>
             </LinearGradient>
-            <Text style={{ ...TextStyle.H3, textAlign: "center", marginTop: 5 }}>{user.name}</Text>
+            <Text style={{ ...TextStyle.H3, textAlign: "center", marginTop: 5 }}>
+              {user ? user.name : data.user.name}
+            </Text>
             <View style={{ flex: 1, flexDirection: "row" }}>
               <View
                 style={[
@@ -96,60 +91,30 @@ export const MyProfile = ({ navigation }) => {
                     borderRadius: 5,
                     borderBottomLeftRadius: 20,
                     width: "45%"
-                  },
-                  tab === "listing" ? { backgroundColor: Colors.grey50 } : { backgroundColor: Colors.white }
+                  }
                 ]}
               >
-                <TouchableWithoutFeedback onPress={() => setTab("listing")}>
-                  <Text style={{ ...TextStyle.H3, textAlign: "center" }}>
-                    {Listings.filter((value) => value.userId === user.id).length}
-                  </Text>
-                  <Text
-                    style={{
-                      ...TextStyle.H5,
-                      textAlign: "center",
-                      marginTop: 1.5,
-                      marginBottom: 1.5,
-                      color: Colors.darkgrey
-                    }}
-                  >
-                    Listings
-                  </Text>
-                  <Text style={{ ...TextStyle.H3, textAlign: "center" }}>
-                    <Entypo name="list" size={16} />
-                  </Text>
-                </TouchableWithoutFeedback>
-              </View>
-              <View style={{ borderColor: Colors.grey50, height: "60%", alignSelf: "center", borderWidth: 0.5 }}></View>
-              <View
-                style={[
+                <Text style={{ ...TextStyle.H3, textAlign: "center" }}>
                   {
-                    padding: 2,
-                    margin: 10,
-                    borderRadius: 5,
-                    borderBottomRightRadius: 20,
-                    width: "45%"
-                  },
-                  tab === "favorite" ? { backgroundColor: Colors.grey50 } : { backgroundColor: Colors.white }
-                ]}
-              >
-                <TouchableWithoutFeedback onPress={() => setTab("favorite")}>
-                  <Text style={{ ...TextStyle.H3, textAlign: "center" }}>{getListings(user.listingIds).length}</Text>
-                  <Text
-                    style={{
-                      ...TextStyle.H5,
-                      textAlign: "center",
-                      marginTop: 1.5,
-                      marginBottom: 1.5,
-                      color: Colors.darkgrey
-                    }}
-                  >
-                    Favorites
-                  </Text>
-                  <Text style={{ ...TextStyle.H3, textAlign: "center" }}>
-                    <Ionicons name="ios-happy-sharp" size={16} />
-                  </Text>
-                </TouchableWithoutFeedback>
+                    data.listings.filter((value) =>
+                      user && value.userId === user.id ? true : !user && value.userId === data.user.id ? true : false
+                    ).length
+                  }
+                </Text>
+                <Text
+                  style={{
+                    ...TextStyle.H5,
+                    textAlign: "center",
+                    marginTop: 1.5,
+                    marginBottom: 1.5,
+                    color: Colors.darkgrey
+                  }}
+                >
+                  Listings
+                </Text>
+                <Text style={{ ...TextStyle.H3, textAlign: "center" }}>
+                  <Entypo name="list" size={16} />
+                </Text>
               </View>
             </View>
           </Animated.View>
@@ -171,26 +136,15 @@ export const MyProfile = ({ navigation }) => {
               paddingBottom: 170
             }}
           >
-            {Listings.filter((value) => value.userId === user.id).map((value, index) => (
-              <React.Fragment key={"listings-" + index}>
-                <ListingCard data={value} />
-              </React.Fragment>
-            ))}
-          </ScrollView>
-          <ScrollView
-            contentContainerStyle={{
-              width: 410,
-              paddingTop: 10,
-              paddingLeft: 5,
-              paddingRight: 20,
-              paddingBottom: 170
-            }}
-          >
-            {getListings(user.listingIds).map((value, index) => (
-              <React.Fragment key={"fav-" + index}>
-                <ListingCard data={value} />
-              </React.Fragment>
-            ))}
+            {data.listings
+              .filter((value) =>
+                user && value.userId === user.id ? true : !user && value.userId === data.user.id ? true : false
+              )
+              .map((value, index) => (
+                <React.Fragment key={"listings-" + index}>
+                  <ListingCard navigation={navigation} data={value} />
+                </React.Fragment>
+              ))}
           </ScrollView>
         </Animated.View>
       </View>

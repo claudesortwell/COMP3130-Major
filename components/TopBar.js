@@ -67,10 +67,7 @@ export const TopBar = ({ navigation, disableShadow }) => {
         <TouchableOpacity
           activeOpacity={1}
           onPress={() => {
-            dataManager.logout().then(() => {
-              navigation.navigate("Welcome");
-              setMenuOpen(false);
-            });
+            setMenuOpen(false);
           }}
           style={{
             backgroundColor: "transparent",
@@ -90,11 +87,20 @@ export const TopBar = ({ navigation, disableShadow }) => {
               ...Shadows.main
             }}
           >
-            <Text style={{ ...TextStyle.H3, textAlign: "center" }}>
-              <MaterialIcons size={14} name="logout" />
-              {"  "}
-              Logout
-            </Text>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                dataManager.logout().then(() => {
+                  navigation.navigate("Welcome");
+                  setMenuOpen(false);
+                });
+              }}
+            >
+              <Text style={{ ...TextStyle.H3, textAlign: "center" }}>
+                <MaterialIcons size={14} name="logout" />
+                {"  "}
+                Logout
+              </Text>
+            </TouchableWithoutFeedback>
           </View>
         </TouchableOpacity>
       </Modal>

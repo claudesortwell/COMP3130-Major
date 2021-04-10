@@ -6,8 +6,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import Colors from "../styles/colors";
 import { CardStyleInterpolators } from "@react-navigation/stack";
 import { Search } from "../screens/Search";
-import { UserProvider } from "../context/UserContext";
 import { AddListing } from "../screens/AddListing";
+import { ViewListing } from "../screens/ViewListing";
+import { DataProvider } from "../context/DataContext";
 
 function MyTabBar({ state, descriptors, navigation }) {
   return (
@@ -41,6 +42,8 @@ function MyTabBar({ state, descriptors, navigation }) {
             : route.name;
 
         const isFocused = state.index === index;
+
+        if (label === "Listing" || label === "OtherProfile") return null;
 
         const onPress = () => {
           const event = navigation.emit({
@@ -94,7 +97,7 @@ export default function TabNavigator() {
   const Tab = createBottomTabNavigator();
 
   return (
-    <UserProvider>
+    <DataProvider>
       <Tab.Navigator lazy={true} screenOptions={{ unmountOnBlur: true }} tabBar={(props) => <MyTabBar {...props} />}>
         <Tab.Screen
           name="Search"
@@ -123,7 +126,25 @@ export default function TabNavigator() {
           }}
           component={MyProfile}
         />
+        <Tab.Screen
+          name="OtherProfile"
+          options={{
+            tabBarLabel: "OtherProfile",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            tabBarIcon: () => <Image source={require("../assets/user_icon.png")} style={{ width: 36, height: 36 }} />
+          }}
+          component={MyProfile}
+        />
+        <Tab.Screen
+          name="Listing"
+          options={{
+            tabBarLabel: "Listing",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+            tabBarIcon: () => <Image source={require("../assets/plus_icon.png")} style={{ width: 36, height: 36 }} />
+          }}
+          component={ViewListing}
+        />
       </Tab.Navigator>
-    </UserProvider>
+    </DataProvider>
   );
 }

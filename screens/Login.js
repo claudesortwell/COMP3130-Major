@@ -83,6 +83,7 @@ export const Login = ({ navigation }) => {
                         keyboardType={"email-address"}
                         onBlur={() => setFieldTouched("email")}
                         label={"Email"}
+                        autoCapitalize="none"
                         placeholder={"Enter your account email address"}
                         whiteLabel={true}
                         error={errors.email}
