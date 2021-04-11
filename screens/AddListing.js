@@ -13,7 +13,7 @@ import { Formik } from "formik";
 import { AntDesign } from "@expo/vector-icons";
 import { useData } from "../context/DataContext";
 
-export const AddListing = ({ navigation }) => {
+export const AddListing = ({ route, navigation }) => {
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -24,7 +24,7 @@ export const AddListing = ({ navigation }) => {
       }
     })();
   }, []);
-
+  console.log(route.params);
   const data = useData();
 
   const AddSchema = Yup.object().shape({
@@ -33,7 +33,7 @@ export const AddListing = ({ navigation }) => {
       .required("Error: Missing name"),
     category: Yup.string().required("Error: Missing category"),
     description: Yup.string()
-      .test("len", "Must be less than 150 characters", (val) => val.length < 150)
+      .test("len", "Must be less than 150 characters", (val) => val.length < 370)
       .required("Error: Missing description"),
     locality: Yup.string().required("Error: Missing locality"),
     stars: Yup.string()
@@ -64,34 +64,56 @@ export const AddListing = ({ navigation }) => {
             }}
           >
             <Formik
-              initialValues={{
-                name: "",
-                description: "",
-                category: "",
-                locality: "",
-                address: "",
-                coordinates: { latitude: "0", longitude: "0" },
-                stars: "0",
-                image: ""
-              }}
+              initialValues={
+                route && route.params && Object.keys(route.params).length > 2
+                  ? {
+                      ...route.params,
+                      stars: route.params.stars.toString(),
+                      coordinates: {
+                        latitude: route.params.coordinates.latitude.toString(),
+                        longitude: route.params.coordinates.longitude.toString()
+                      }
+                    }
+                  : {
+                      name: "",
+                      description: "",
+                      category: "",
+                      locality: "",
+                      address: "",
+                      coordinates: { latitude: "0", longitude: "0" },
+                      stars: "0",
+                      image: ""
+                    }
+              }
               validationSchema={AddSchema}
               onSubmit={(values, { resetForm }) => {
-                data.addListing({
-                  ...values,
-                  coordinates: {
-                    latitude: Number(values.coordinates.latitude),
-                    longitude: Number(values.coordinates.longitude)
-                  },
-                  stars: Number(values.stars),
-                  userId: data.user.id
-                });
+                if (route && route.params && Object.keys(route.params).length) {
+                  data.editListing({
+                    ...values,
+                    coordinates: {
+                      latitude: Number(values.coordinates.latitude),
+                      longitude: Number(values.coordinates.longitude)
+                    },
+                    stars: Number(values.stars)
+                  });
+                } else {
+                  data.addListing({
+                    ...values,
+                    coordinates: {
+                      latitude: Number(values.coordinates.latitude),
+                      longitude: Number(values.coordinates.longitude)
+                    },
+                    stars: Number(values.stars),
+                    userId: data.user.id
+                  });
+                }
+                navigation.navigate("Search");
                 resetForm();
-                navigation.navigate("Home");
               }}
             >
               {({ values, handleChange, handleSubmit, errors, touched, setFieldTouched, setFieldValue }) => (
                 <>
-                  {console.log(errors)}
+                  {console.log(values.description)}
                   <Input
                     label="Name"
                     onBlur={() => setFieldTouched("name")}
@@ -164,11 +186,12 @@ export const AddListing = ({ navigation }) => {
                   <View style={{ marginTop: 10 }}>
                     <Input
                       label="Description"
+                      multiline={true}
                       onBlur={() => setFieldTouched("description")}
                       error={errors.description}
                       whiteLabel={false}
                       touched={touched.description}
-                      value={values.nadescriptionme}
+                      value={values.description}
                       setValue={handleChange("description")}
                     />
                   </View>
@@ -238,7 +261,7 @@ export const AddListing = ({ navigation }) => {
                   </Text>
                   {values.image !== "" && (
                     <Image
-                      source={{ uri: values.image }}
+                      source={values.image.toString().startsWith("file:") ? { uri: values.image } : values.image}
                       style={{ width: "100%", height: 100, borderRadius: 10, marginBottom: 10 }}
                     />
                   )}

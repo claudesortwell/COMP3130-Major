@@ -8,6 +8,7 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 import { Search } from "../screens/Search";
 import { AddListing } from "../screens/AddListing";
 import { ViewListing } from "../screens/ViewListing";
+import { useData } from "../context/DataContext";
 
 function MyTabBar({ state, descriptors, navigation }) {
   return (
@@ -94,6 +95,7 @@ function MyTabBar({ state, descriptors, navigation }) {
 
 export default function TabNavigator() {
   const Tab = createBottomTabNavigator();
+  const data = useData();
 
   return (
     <Tab.Navigator lazy={true} screenOptions={{ unmountOnBlur: true }} tabBar={(props) => <MyTabBar {...props} />}>
@@ -120,7 +122,18 @@ export default function TabNavigator() {
         options={{
           tabBarLabel: "Profile",
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          tabBarIcon: () => <Image source={require("../assets/user_icon.png")} style={{ width: 36, height: 36 }} />
+          tabBarIcon: () => (
+            <Image
+              source={
+                data.user && data.user.image
+                  ? data.user.image.toString("file:/")
+                    ? { uri: data.user.image }
+                    : data.user.image
+                  : require("../assets/user_icon.png")
+              }
+              style={{ width: 36, height: 36, borderRadius: 5 }}
+            />
+          )
         }}
         component={MyProfile}
       />

@@ -51,7 +51,10 @@ export const ViewListing = ({ route, navigation }) => {
                 justifyContent: "center"
               }}
             >
-              <TouchableWithoutFeedback style={{ width: 40, height: 42, borderRadius: 5 }}>
+              <TouchableWithoutFeedback
+                onPress={() => navigation.navigate("New", { ...listing })}
+                style={{ width: 40, height: 42, borderRadius: 5 }}
+              >
                 <View style={{ ...Shadows.main }}>
                   <LinearGradient
                     colors={[Color.teal, Color.blue]}
@@ -229,24 +232,26 @@ export const ViewListing = ({ route, navigation }) => {
                   }}
                 >
                   {listing.stars % 1 === 0 ? (
-                    times(listing.stars, () => {
+                    times(listing.stars, (n) => {
                       return (
                         <FontAwesome
                           name="star"
                           style={{ marginRight: 3, marginLeft: 3, marginTop: 10 }}
                           size={14}
+                          key={n}
                           color="black"
                         />
                       );
                     })
                   ) : (
                     <>
-                      {times(listing.stars, () => {
+                      {times(listing.stars, (n) => {
                         return (
                           <FontAwesome
                             name="star"
                             style={{ marginRight: 3, marginLeft: 3, marginTop: 10 }}
                             size={14}
+                            key={n}
                             color="black"
                           />
                         );

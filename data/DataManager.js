@@ -107,8 +107,19 @@ export default class DataManager {
     return true;
   }
 
+  editListing(data) {
+    var foundIndex = this.listings.findIndex((x) => x.id == data.id);
+    this.listings[foundIndex] = data;
+  }
+
   async setListings() {
     await AsyncStorage.setItem("@listings", JSON.stringify(this.listings));
+  }
+
+  addUser(data) {
+    this.users = [...this.users, { ...data, id: this.users[this.users.length - 1].id + 1 }];
+    this.setUsers();
+    return true;
   }
 
   addUser(data) {
