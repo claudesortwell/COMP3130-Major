@@ -25,7 +25,7 @@ const ListingCard = ({ data, navigation }) => {
     >
       <Image
         style={{ width: "50%", height: 175, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }}
-        source={data.image}
+        source={data.image.toString().startsWith("file:/") ? { uri: data.image } : data.image}
       />
       <View style={{ padding: 10, flex: 1 }}>
         <Text numberOfLines={1} style={{ ...TextStyle.H3 }}>

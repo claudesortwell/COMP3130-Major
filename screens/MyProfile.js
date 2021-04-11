@@ -8,14 +8,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import ListingCard from "../components/ListingCard";
 import { Entypo } from "@expo/vector-icons";
 import { useData } from "../context/DataContext";
-import { getUser } from "../data/Users";
 
 export const MyProfile = ({ route, navigation }) => {
   const data = useData();
 
   var user = null;
   if (route.params && route.params.id) {
-    user = getUser("", route.params.id);
+    user = data.getUser("", route.params.id);
   }
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -76,7 +75,20 @@ export const MyProfile = ({ route, navigation }) => {
               style={{ padding: 5, borderRadius: 15 }}
             >
               <View style={{ padding: 4, borderRadius: 12, backgroundColor: "#fff" }}>
-                <Image style={{ width: 55, height: 55 }} source={user ? user.image : data.user.image} />
+                <Image
+                  style={{ width: 55, height: 55, borderRadius: 10 }}
+                  source={
+                    user
+                      ? user.image.toString().startsWith("file:/")
+                        ? { uri: user.image }
+                        : user.image
+                      : data.user
+                      ? data.user.image.toString().startsWith("file:/")
+                        ? { uri: data.user.image }
+                        : data.user.image
+                      : null
+                  }
+                />
               </View>
             </LinearGradient>
             <Text style={{ ...TextStyle.H3, textAlign: "center", marginTop: 5 }}>

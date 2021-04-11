@@ -1,10 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Listings } from "./Listings";
-import { getUser } from "./Users";
+import { Users } from "./Users";
 
 export default class DataManager {
   static Instance = null;
   user = null;
+  users = Users;
   listings = Listings;
 
   static async getInstance() {
@@ -16,24 +17,33 @@ export default class DataManager {
       try {
         const value = await AsyncStorage.getItem("@user_id");
         if (value) {
-          this.Instance.user = getUser("", Number(value));
+          this.Instance.user = this.getUser("", Number(value));
         }
       } catch (e) {
         // error reading value
       }
     }
 
-    if (!this.Instance.listings) {
-      try {
-        const jsonValue = await AsyncStorage.getItem("@listings");
-        let value = null;
-        jsonValue != null ? (value = JSON.parse(jsonValue)) : (value = null);
-        if (value !== null) {
-          this.Instance.listings = value;
-        }
-      } catch (e) {
-        // error reading value
+    try {
+      const jsonValue = await AsyncStorage.getItem("@listings");
+      let value = null;
+      jsonValue != null ? (value = JSON.parse(jsonValue)) : (value = null);
+      if (value !== null) {
+        this.Instance.listings = value;
       }
+    } catch (e) {
+      // error reading value
+    }
+
+    try {
+      const jsonValue = await AsyncStorage.getItem("@users");
+      let value = null;
+      jsonValue != null ? (value = JSON.parse(jsonValue)) : (value = null);
+      if (value !== null) {
+        this.Instance.users = value;
+      }
+    } catch (e) {
+      // error reading value
     }
 
     return this.Instance;
@@ -60,7 +70,7 @@ export default class DataManager {
       // saving error
     }
 
-    this.user = getUser(email, Number(id));
+    this.user = this.getUser(email, Number(id));
   }
 
   async logout() {
@@ -87,7 +97,35 @@ export default class DataManager {
     this.listings = this.listings.filter(function (obj) {
       return obj.id !== id;
     });
-
+    this.setListings();
     return true;
+  }
+
+  addListing(data) {
+    this.listings = [...this.listings, { ...data, id: this.listings[this.listings.length - 1].id + 1 }];
+    this.setListings();
+    return true;
+  }
+
+  async setListings() {
+    await AsyncStorage.setItem("@listings", JSON.stringify(this.listings));
+  }
+
+  addUser(data) {
+    this.users = [...this.users, { ...data, id: this.users[this.users.length - 1].id + 1 }];
+    this.setUsers();
+    return true;
+  }
+
+  async setUsers() {
+    await AsyncStorage.setItem("@users", JSON.stringify(this.users));
+  }
+
+  validateUser({ email, password }) {
+    return this.users.find((value) => value.email === email && value.password === password);
+  }
+
+  getUser(email, userID) {
+    return this.users.find((value) => value.email === email || value.id === userID);
   }
 }

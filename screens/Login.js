@@ -11,9 +11,9 @@ import { Ionicons } from "@expo/vector-icons";
 import DismissKeyboard from "../components/DissmissKeyboard";
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { validateUser } from "../data/Users";
 import DataManager from "../data/DataManager";
 import CommonStyles from "../styles/common";
+import { useData } from "../context/DataContext";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Error: Missing email"),
@@ -22,8 +22,10 @@ const LoginSchema = Yup.object().shape({
 
 export const Login = ({ navigation }) => {
   const { flexTop, flexBottomText, flexBottomButtons } = styles;
-
+  const data = useData();
   const { mainContainer, imageBackground, flexContainer, lineDraw } = CommonStyles;
+
+  console.log(data.users, data.user);
 
   return (
     <View style={mainContainer}>
@@ -60,11 +62,12 @@ export const Login = ({ navigation }) => {
             initialValues={{ email: "", password: "" }}
             validationSchema={LoginSchema}
             onSubmit={async (values, { resetForm }) => {
-              const user = validateUser(values);
+              console.log(data.validateUser(values));
+              const user = data.validateUser(values);
+              console.log(user);
               if (user) {
-                const instance = await DataManager.getInstance();
-                await instance.setUser(user.email, user.id);
-                if (instance.user) {
+                await data.setUser(user.email, user.id);
+                if (data.user) {
                   navigation.navigate("Home");
                   resetForm();
                 }
@@ -74,7 +77,7 @@ export const Login = ({ navigation }) => {
               }
             }}
           >
-            {({ values, handleChange, handleSubmit, errors, setFieldTouched }) => (
+            {({ values, handleChange, handleSubmit, errors, setFieldTouched, touched }) => (
               <>
                 <DismissKeyboard>
                   <View style={{ width: "100%", flex: 1, alignItems: "center" }}>
@@ -86,6 +89,7 @@ export const Login = ({ navigation }) => {
                         autoCapitalize="none"
                         placeholder={"Enter your account email address"}
                         whiteLabel={true}
+                        touched={touched.email}
                         error={errors.email}
                         value={values.email}
                         setValue={handleChange("email")}
@@ -96,8 +100,8 @@ export const Login = ({ navigation }) => {
                         secureTextEntry={true}
                         onBlur={() => setFieldTouched("password")}
                         label={"Password"}
-                        placeholder={"Enter your account email adress"}
                         whiteLabel={true}
+                        touched={touched.password}
                         error={errors.password}
                         value={values.password}
                         setValue={handleChange("password")}

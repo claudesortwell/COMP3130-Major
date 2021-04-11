@@ -8,18 +8,14 @@ import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import MapView, { Marker } from "react-native-maps";
-import { getUser } from "../data/Users";
 import { FontAwesome } from "@expo/vector-icons";
 import times from "lodash/times";
 import { useData } from "../context/DataContext";
 
 export const ViewListing = ({ route, navigation }) => {
   const data = useData();
-
   const listing = data.getAListing(route.params.id);
-
-  const user = getUser("", listing.userId);
-
+  const user = data.getUser("", listing.userId);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   return (
@@ -42,7 +38,7 @@ export const ViewListing = ({ route, navigation }) => {
         >
           <Image
             style={{ width: "100%", height: 175, borderTopLeftRadius: 5, borderTopRightRadius: 5 }}
-            source={listing.image}
+            source={listing.image.toString().startsWith("file:/") ? { uri: listing.image } : listing.image}
           />
 
           <View style={{ flex: 1, justifyContent: "center", alignSelf: "center", flexDirection: "column" }}>

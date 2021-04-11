@@ -8,7 +8,6 @@ import { CardStyleInterpolators } from "@react-navigation/stack";
 import { Search } from "../screens/Search";
 import { AddListing } from "../screens/AddListing";
 import { ViewListing } from "../screens/ViewListing";
-import { DataProvider } from "../context/DataContext";
 
 function MyTabBar({ state, descriptors, navigation }) {
   return (
@@ -97,54 +96,52 @@ export default function TabNavigator() {
   const Tab = createBottomTabNavigator();
 
   return (
-    <DataProvider>
-      <Tab.Navigator lazy={true} screenOptions={{ unmountOnBlur: true }} tabBar={(props) => <MyTabBar {...props} />}>
-        <Tab.Screen
-          name="Search"
-          component={Search}
-          options={{
-            tabBarLabel: "Home",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            tabBarIcon: () => <Image source={require("../assets/search_icon.png")} style={{ width: 36, height: 36 }} />
-          }}
-        />
-        <Tab.Screen
-          name="New"
-          options={{
-            tabBarLabel: "New",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            tabBarIcon: () => <Image source={require("../assets/plus_icon.png")} style={{ width: 36, height: 36 }} />
-          }}
-          component={AddListing}
-        />
-        <Tab.Screen
-          name="Profile"
-          options={{
-            tabBarLabel: "Profile",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            tabBarIcon: () => <Image source={require("../assets/user_icon.png")} style={{ width: 36, height: 36 }} />
-          }}
-          component={MyProfile}
-        />
-        <Tab.Screen
-          name="OtherProfile"
-          options={{
-            tabBarLabel: "OtherProfile",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            tabBarIcon: () => <Image source={require("../assets/user_icon.png")} style={{ width: 36, height: 36 }} />
-          }}
-          component={MyProfile}
-        />
-        <Tab.Screen
-          name="Listing"
-          options={{
-            tabBarLabel: "Listing",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-            tabBarIcon: () => <Image source={require("../assets/plus_icon.png")} style={{ width: 36, height: 36 }} />
-          }}
-          component={ViewListing}
-        />
-      </Tab.Navigator>
-    </DataProvider>
+    <Tab.Navigator lazy={true} screenOptions={{ unmountOnBlur: true }} tabBar={(props) => <MyTabBar {...props} />}>
+      <Tab.Screen
+        name="Search"
+        component={Search}
+        options={{
+          tabBarLabel: "Home",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          tabBarIcon: () => <Image source={require("../assets/search_icon.png")} style={{ width: 36, height: 36 }} />
+        }}
+      />
+      <Tab.Screen
+        name="New"
+        options={{
+          tabBarLabel: "New",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          tabBarIcon: () => <Image source={require("../assets/plus_icon.png")} style={{ width: 36, height: 36 }} />
+        }}
+        component={AddListing}
+      />
+      <Tab.Screen
+        name="Profile"
+        options={{
+          tabBarLabel: "Profile",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          tabBarIcon: () => <Image source={require("../assets/user_icon.png")} style={{ width: 36, height: 36 }} />
+        }}
+        component={MyProfile}
+      />
+      <Tab.Screen
+        name="OtherProfile"
+        options={{
+          tabBarLabel: "OtherProfile",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          tabBarIcon: () => <Image source={require("../assets/user_icon.png")} style={{ width: 36, height: 36 }} />
+        }}
+        component={MyProfile}
+      />
+      <Tab.Screen
+        name="Listing"
+        options={{
+          tabBarLabel: "Listing",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          tabBarIcon: () => <Image source={require("../assets/plus_icon.png")} style={{ width: 36, height: 36 }} />
+        }}
+        component={ViewListing}
+      />
+    </Tab.Navigator>
   );
 }

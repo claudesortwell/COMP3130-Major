@@ -1,4 +1,4 @@
-const Users = [
+export const Users = [
   {
     id: 1,
     name: "Matt Smith",
@@ -14,11 +14,3 @@ const Users = [
     image: require("../assets/user_2.png")
   }
 ];
-
-export const validateUser = ({ email, password }) => {
-  return Users.find((value) => value.email === email && value.password === password);
-};
-
-export const getUser = (email, userID) => {
-  return Users.find((value) => value.email === email || value.id === userID);
-};

@@ -13,7 +13,6 @@ import AuthNavigator from "./navigator/AuthNavigator";
 import DataManager from "./data/DataManager";
 
 export default function App() {
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   async function getUser() {
@@ -23,7 +22,6 @@ export default function App() {
 
   useEffect(() => {
     getUser().then((value) => {
-      setUser(value);
       setLoading(false);
     });
   }, []);

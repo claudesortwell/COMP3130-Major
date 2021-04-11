@@ -4,7 +4,18 @@ import TextStyle from "../styles/text";
 import Colors from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 
-export const Input = ({ label, value, placeholder, setValue, icon, whiteLabel, error, hint, ...otherProps }) => {
+export const Input = ({
+  label,
+  value,
+  placeholder,
+  touched,
+  setValue,
+  icon,
+  whiteLabel,
+  error,
+  hint,
+  ...otherProps
+}) => {
   return (
     <View style={{ width: "100%" }}>
       <Text style={{ ...TextStyle.H3, color: whiteLabel ? Colors.white : Colors.main, marginBottom: 8 }}>
@@ -18,13 +29,13 @@ export const Input = ({ label, value, placeholder, setValue, icon, whiteLabel, e
         {label}
       </Text>
       <TextInput
-        style={{ ...styles.main, borderColor: error ? Colors.red : Colors.grey }}
+        style={{ ...styles.main, borderColor: touched && error ? Colors.red : Colors.grey }}
         onChangeText={(text) => setValue(text)}
         placeholder={placeholder}
         value={value}
         {...otherProps}
       />
-      {error && (
+      {touched && error && (
         <View
           style={{
             marginTop: 3,
