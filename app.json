@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "COMP3130-Major",
+    "name": "COMP3130-Major Sydney City App",
     "slug": "COMP3130-Major",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "My app is based around adding restaurants, hotels and tourism places to visit for the City of Sydney. In this app you can sign up, register, add listings, delete listings and edit listings. You can also view other users' profiles with all the listings they have added. Also even though the app does not require internet connectivity, your data is saved through closing and reopening the app, even after device shutdown, this makes it perfect for crowd sourcing listings at places like the Easter Show or Westfield where places are constantly changing and allows users to create, update and view listings of a current venue or other venues nearby that were added by real people.",
+    "githubUrl": "https://github.com/claudesortwell/COMP3130-Major"
   }
 }
