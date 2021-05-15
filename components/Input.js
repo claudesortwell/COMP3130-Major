@@ -56,7 +56,7 @@ export const Input = ({
           </Text>
         </View>
       )}
-      {hint && !error && <Text style={{ ...TextStyle.H4, color: Colors.main, marginTop: 8 }}>{hint}</Text>}
+      {hint && !error && !touched && <Text style={{ ...TextStyle.H4, color: Colors.main, marginTop: 8 }}>{hint}</Text>}
     </View>
   );
 };

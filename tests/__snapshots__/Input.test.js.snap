@@ -1,0 +1,196 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Input /> Input with errors (touched and untouched) 1`] = `
+<View
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#252F3F",
+        "fontFamily": "Inter_700Bold",
+        "fontSize": 14,
+        "marginBottom": 8,
+      }
+    }
+  >
+    Email
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    keyboardType="email-address"
+    onChangeText={[Function]}
+    placeholder="Enter your account email address"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#D2D6DC",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "height": 50,
+        "padding": 10,
+        "width": "100%",
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+</View>
+`;
+
+exports[`<Input /> Input with errors (touched and untouched) 2`] = `
+<View
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#252F3F",
+        "fontFamily": "Inter_700Bold",
+        "fontSize": 14,
+        "marginBottom": 8,
+      }
+    }
+  >
+    Email
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    keyboardType="email-address"
+    onChangeText={[Function]}
+    placeholder="Enter your account email address"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#F05252",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "height": 50,
+        "padding": 10,
+        "width": "100%",
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+  <View
+    style={
+      Object {
+        "backgroundColor": "",
+        "borderRadius": 5,
+        "marginTop": 3,
+        "padding": 3,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#F05252",
+          "fontFamily": "Inter_600SemiBold",
+          "fontSize": 14,
+        }
+      }
+    >
+        
+      Email is invalid
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<Input /> Input without white label enabled 1`] = `
+<View
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#252F3F",
+        "fontFamily": "Inter_700Bold",
+        "fontSize": 14,
+        "marginBottom": 8,
+      }
+    }
+  >
+    Email
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    keyboardType="email-address"
+    onChangeText={[Function]}
+    placeholder="Enter your account email address"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#D2D6DC",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "height": 50,
+        "padding": 10,
+        "width": "100%",
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+</View>
+`;
+
+exports[`<Input /> Renders Basic input 1`] = `
+<View
+  style={
+    Object {
+      "width": "100%",
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#fff",
+        "fontFamily": "Inter_700Bold",
+        "fontSize": 14,
+        "marginBottom": 8,
+      }
+    }
+  >
+    Email
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    autoCapitalize="none"
+    keyboardType="email-address"
+    onChangeText={[Function]}
+    placeholder="Enter your account email address"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "#fff",
+        "borderColor": "#D2D6DC",
+        "borderRadius": 5,
+        "borderWidth": 1,
+        "height": 50,
+        "padding": 10,
+        "width": "100%",
+      }
+    }
+    underlineColorAndroid="transparent"
+  />
+</View>
+`;

@@ -126,7 +126,7 @@ export default function TabNavigator() {
             <Image
               source={
                 data.user && data.user.image
-                  ? data.user.image.toString("file:/")
+                  ? isNaN(data.user.image) && data.user.image.toString("file:/")
                     ? { uri: data.user.image }
                     : data.user.image
                   : require("../assets/user_icon.png")
